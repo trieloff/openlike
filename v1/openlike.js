@@ -40,13 +40,15 @@ if (!OPENLIKE.Widget) {
 		//
 		//   url -- string -- the url to share
 		//   s -- array -- list of sites to share to
-		//   title -- the title text (or none) to give the widget (default - 'Like this:')
-		//   css -- string (or false) -- url for the css ('optional' -- *only used in first widget call*)
+		//   title -- the title text (or none) to give the widget (default 'Like this:')
+		//   css -- string (or false) -- url for the css (optional, *only used in first OPENLIKE.Widget call*)
+		//   type -- string -- the type of this object, e.g. product, activity, sport, bar, company (optional)
 		var defaults = {
 				s: ['facebook', 'hunch', 'digg', 'reddit', 'stumbleupon'],
 				url: window.location.href,
 				title: 'Like this:',
-				css: OPENLIKE.assetHost + '/v1/openlike.css'
+				css: OPENLIKE.assetHost + '/v1/openlike.css',
+				category: ''
 			},
 			i, len, wrapper, title, list, li, a, source,
 			css;
@@ -120,6 +122,7 @@ if (!OPENLIKE.Widget) {
 		source.target = OPENLIKE.util.notundef(source.target, '_blank');
 		source.klass = 'openlike-' + OPENLIKE.util.escape(name);
 		if (source.popup) {
+			if (typeof(source.popup) != 'object') source.popup = {};
 			source.popup.target = OPENLIKE.util.notundef(source.popup.target, '_blank');
 			source.popup.attrs = OPENLIKE.util.notundef(source.popup.attrs, 'width=360,height=360');
 		}
@@ -144,14 +147,8 @@ if (!OPENLIKE.Widget) {
 				var elt = document.createElement('IFRAME'),
 					width = 53;
 				elt.src = 'http://www.facebook.com/plugins/like.php?href=' + encodeURIComponent(cfg.url) + '&amp;layout=button_count&amp;show_faces=false&amp;width=' + width + '&amp;action=like&amp;colorscheme=light';
-				elt.scrolling = "no";
-				elt.frameBorder = "0";
-				elt.allowTransparency = "true";
-				elt.style.border = 'none';
-				elt.style.overflow = 'hidden';
-				elt.style.width = width + 'px';
-				elt.style.height = '24px';
-				elt.style.padding = '1px 0 0 0';
+				OPENLIKE.util.update(elt, {scrolling: 'no', frameBorder: '0', allowTransparency: 'true'});
+				OPENLIKE.util.update(elt.style, {border: 'none', overflow: 'hidden', width: width+'px', height: '24px', padding: '1px 0 0 0'});
 				return elt;
 			},
 			url: 'http://facebook.com',
@@ -169,14 +166,15 @@ if (!OPENLIKE.Widget) {
 					// add srcURL too?
 				return 'http://www.google.com/buzz/post?message=' + encodeURIComponent(msg) + '&url=' + encodeURIComponent(url);
 			},
-			title: 'Like this on Buzz'
+			title: 'Like this on Google Buzz'
 		},
 		hunch: {
 			url: 'http://hunch.com',
 			basicLink: function(a, cfg) {
 				var url = cfg.url,
-					title = document.title;
-				return 'http://hunch.com/openlike/?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
+					title = document.title,
+					category = cfg.type;
+				return 'http://hunch.com/openlike/?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title) + (category ? '&category=' + encodeURIComponent(category) : '');
 			},
 			popup: {
 				target: '_blank',
