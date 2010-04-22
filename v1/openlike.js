@@ -1,6 +1,5 @@
 // TODO - add full support for the "open graph" meta elements
 // TODO - add more specifics to each service, such as buzz "imageurl"
-// TODO - add more services reddit, digg, ...
 if (!window.OPENLIKE) {
 	window.OPENLIKE = {
 		assetHost: 'http://openlike.org',
@@ -44,7 +43,7 @@ if (!OPENLIKE.Widget) {
 		//   title -- the title text (or none) to give the widget (default - 'Like this:')
 		//   css -- string (or false) -- url for the css ('optional' -- *only used in first widget call*)
 		var defaults = {
-				s: ['facebook', 'hunch', 'twitter', 'google'],
+				s: ['facebook', 'hunch', 'digg', 'reddit', 'stumbleupon'],
 				url: window.location.href,
 				title: 'Like this:',
 				css: OPENLIKE.assetHost + '/v1/openlike.css'
@@ -127,37 +126,16 @@ if (!OPENLIKE.Widget) {
 		return source;
 	};
 
+	// Sources that can be used out-of-box (in alphabetical order)
+	// The OPENLIE.Sources object can be extended in a separate js file
 	OPENLIKE.Sources = {
-		google: {
-			url: 'http://google.com',
-			basicLink: function(a, cfg) {
-				var url = cfg.url,
-					msg = 'I like this... ' + document.title;
-					//srcURL -- e.g. http://domain.com/
-				return 'http://www.google.com/buzz/post?message=' + encodeURIComponent(msg) + '&amp;url=' + encodeURIComponent(url);
-			},
-			title: 'Buzz this like.'
-		},
-		hunch: {
-			url: 'http://hunch.com',
+		digg: {
+			url: 'http://digg.com/',
 			basicLink: function(a, cfg) {
 				var url = cfg.url,
 					title = document.title;
-				return 'http://hunch.com/openlike/?url=' + encodeURIComponent(url) + '&amp;title=' + encodeURIComponent(title);
-			},
-			popup: {
-				target: '_blank',
-				attrs: 'width=610,height=600'
-			},
-			title: 'Add this to your Hunch taste profile.'
-		},
-		twitter: {
-			url: 'http://twitter.com',
-			basicLink: function(a, cfg) {
-				var msg = 'I like this: ' + cfg.url + ' #openlike';
-				return 'http://twitter.com/home?status=' + encodeURIComponent(msg);
-			},
-			title: 'Tweet this like.'
+				return 'http://digg.com/submit?phase=2&url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
+			}
 		},
 		facebook: {
 			html: function(cfg) {
@@ -179,8 +157,54 @@ if (!OPENLIKE.Widget) {
 			basicLink: function(a, cfg) {
 				var url = cfg.url,
 					title = document.title;
-				return 'http://www.facebook.com/sharer.php?u=' + encodeURIComponent(url) + '&amp;t=' + encodeURIComponent(title);
+				return 'http://www.facebook.com/sharer.php?u=' + encodeURIComponent(url) + '&t=' + encodeURIComponent(title);
 			}
+		},
+		google: {
+			url: 'http://google.com',
+			basicLink: function(a, cfg) {
+				var url = cfg.url,
+					msg = 'I like this... ' + document.title;
+					// add srcURL too?
+				return 'http://www.google.com/buzz/post?message=' + encodeURIComponent(msg) + '&url=' + encodeURIComponent(url);
+			},
+			title: 'Buzz this like.'
+		},
+		hunch: {
+			url: 'http://hunch.com',
+			basicLink: function(a, cfg) {
+				var url = cfg.url,
+					title = document.title;
+				return 'http://hunch.com/openlike/?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
+			},
+			popup: {
+				target: '_blank',
+				attrs: 'width=610,height=600'
+			},
+			title: 'Add this to your Hunch taste profile.'
+		},
+		reddit: {
+			url: 'http://reddit.com/',
+			basicLink: function(a, cfg) {
+				var url = cfg.url,
+					title = document.title;
+				return 'http://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
+			}
+		},
+		stumbleupon: {
+			url: 'http://www.stumbleupon.com/',
+			basicLink: function(a, cfg) {
+				var url = cfg.url;
+				return 'http://www.stumbleupon.com/submit?url=' + encodeURIComponent(url);
+			}
+		},
+		twitter: {
+			url: 'http://twitter.com',
+			basicLink: function(a, cfg) {
+				var msg = 'I like this: ' + cfg.url + ' #openlike';
+				return 'http://twitter.com/home?status=' + encodeURIComponent(msg);
+			},
+			title: 'Tweet this like.'
 		}
 	};
 }
