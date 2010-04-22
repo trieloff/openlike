@@ -135,7 +135,8 @@ if (!OPENLIKE.Widget) {
 				var url = cfg.url,
 					title = document.title;
 				return 'http://digg.com/submit?phase=2&url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
-			}
+			},
+			title: 'Like this on Digg'
 		},
 		facebook: {
 			html: function(cfg) {
@@ -168,7 +169,7 @@ if (!OPENLIKE.Widget) {
 					// add srcURL too?
 				return 'http://www.google.com/buzz/post?message=' + encodeURIComponent(msg) + '&url=' + encodeURIComponent(url);
 			},
-			title: 'Buzz this like.'
+			title: 'Like this on Buzz'
 		},
 		hunch: {
 			url: 'http://hunch.com',
@@ -181,7 +182,7 @@ if (!OPENLIKE.Widget) {
 				target: '_blank',
 				attrs: 'width=610,height=600'
 			},
-			title: 'Add this to your Hunch taste profile.'
+			title: 'Add this to your Hunch taste profile'
 		},
 		reddit: {
 			url: 'http://reddit.com/',
@@ -189,14 +190,16 @@ if (!OPENLIKE.Widget) {
 				var url = cfg.url,
 					title = document.title;
 				return 'http://www.reddit.com/submit?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
-			}
+			},
+			title: 'Like this on Reddit'
 		},
 		stumbleupon: {
 			url: 'http://www.stumbleupon.com/',
 			basicLink: function(a, cfg) {
 				var url = cfg.url;
 				return 'http://www.stumbleupon.com/submit?url=' + encodeURIComponent(url);
-			}
+			},
+			title: 'Like this on StumbleUpon'
 		},
 		twitter: {
 			url: 'http://twitter.com',
@@ -204,7 +207,7 @@ if (!OPENLIKE.Widget) {
 				var msg = 'I like this: ' + cfg.url + ' #openlike';
 				return 'http://twitter.com/home?status=' + encodeURIComponent(msg);
 			},
-			title: 'Tweet this like.'
+			title: 'Tweet this like'
 		}
 	};
 }
