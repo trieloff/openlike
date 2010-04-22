@@ -79,14 +79,10 @@ if (!OPENLIKE.Widget) {
 		}
 
 		list = document.createElement('UL');
-		console.log('SOURCES', OPENLIKE.Sources);
-		console.log('to check:', cfg.s);
 		for (i=0, len=cfg.s.length; i<len; i++) {
-			console.log(cfg.s[i]);
 			if (source = OPENLIKE.Sources[cfg.s[i]]) {
 				source = OPENLIKE.prepSource(cfg.s[i], source);
 				li = document.createElement('LI');
-				console.log('source is', source);
 				if (source.html) {
 					a = source.html(cfg);
 				} else {
